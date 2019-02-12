@@ -22,7 +22,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Fabio007/vue-opti-table.git"
+    "url": "git+https://github.com/Fabio007/vue-opti-table-next.git"
   },
   "dependencies": {
     "vue-clipboard2": "0.0.8",
@@ -109,9 +109,9 @@
     "not ie <= 8"
   ],
   "bugs": {
-    "url": "https://github.com/Fabio007/vue-opti-table/issues"
+    "url": "https://github.com/Fabio007/vue-opti-table-next/issues"
   },
-  "homepage": "https://github.com/Fabio007/vue-opti-table#readme",
+  "homepage": "https://github.com/Fabio007/vue-opti-table-next#readme",
   "directories": {
     "test": "test"
   }
