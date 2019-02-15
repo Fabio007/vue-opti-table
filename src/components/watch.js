@@ -19,4 +19,19 @@ export default { // eslint-disable-next-line
     this.localTableModel.columnsOrder = newVal;
     this.$emit('click', this.localTableModel);
   },
+  headerFields: {
+    immediate: true,
+    handler() {
+      this.localTableModel = this.tableModel;
+      if (window.localStorage.getItem(this.name)) {
+        this.localTableModel.displayColumns = JSON.parse(window.localStorage.getItem(this.name)).displayColumns;
+        this.localHeaderFields = JSON.parse(window.localStorage.getItem(this.name)).columnsOrder;
+      } else {
+        this.localHeaderFields = this.headerFields;
+        this.localTableModel.displayColumns = this.localHeaderFields.filter(field => field.display !== false);
+      }
+      this.$emit('click', this.localTableModel);
+    },
+    deep: true,
+  },
 };

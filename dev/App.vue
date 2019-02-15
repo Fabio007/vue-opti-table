@@ -1,9 +1,10 @@
 <template>
   <div class="container mt-2">
 
-    <vue-opti-table-next name="demo-table"
+    <vue-opti-table-next
       selectable
       v-model="tableModel"
+      :name="`table-${tableSelect}`"
       @on-sort="$_paginationChanged($event)"
       @on-search="$_searchExec($event)"
       @on-row-per-page-change="$_paginationChanged($event)"

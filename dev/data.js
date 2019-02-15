@@ -32,6 +32,7 @@ export default function () {
         },
         {
           header: { content: () => 'Lastname', style: '' },
+          display: false,
           item: {
             key: 'name.last',
             content: item => item.name.last,
@@ -145,6 +146,7 @@ export default function () {
         },
         {
           header: { content: () => 'Lastname', style: '' },
+          display: true,
           item: {
             key: 'name.last',
             content: item => item.name.last,
