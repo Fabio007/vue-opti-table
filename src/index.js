@@ -15,6 +15,6 @@ if (typeof window !== 'undefined' && window.Vue) {
 
 export default OptiDataTablePlugin;
 export {
-  OptiDataTable as VueOptiTable,
+  OptiDataTable as VueOptiTableNext,
 };
 

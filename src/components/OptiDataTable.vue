@@ -88,10 +88,14 @@
                 <div :class="{'arrow-down-active': sortKey === col.item.key && sortOrder === 'desc'}"
                      class="arrow-down"></div>
               </div>
-              <div @click="$_fieldClickAction(col)" class="title pt-2 pb-2"
+              <div @click="col.header.preventSort ? null : $_fieldClickAction(col)" class="title pt-2 pb-2"
                    :class="{ 'pl-2': !col.item.sortable, 'pr-2': !col.item.filter }" style="text-align: center;">
-                <span v-html="col.header.content()" v-if="typeof col.header.content == 'function'"></span>
-                <span v-html="col.header.content" v-if="typeof col.header.content != 'function'"></span>
+                <!-- CHECK IF IS A SLOT -->
+                <div v-if="col.header.slot" :class="[col.header.class, 'HEADER_field']">
+                  <slot :name="`HEADER_${col.header.slot}`" :item="col.header" :i="i"></slot>
+                </div>
+                <span v-else-if="typeof col.header.content == 'function'" v-html="col.header.content()"></span>
+                <span v-else-if="typeof col.header.content != 'function'" v-html="col.header.content"></span>
                 <i v-if="col.header.info"
                    v-b-tooltip="{ hover: true, html: true, title: col.header.info, boundary: 'window' }"
                    class="fa fa-info-circle info-icon"></i>
@@ -206,7 +210,7 @@ import methods from './methods';
 import watch from './watch';
 
 export default {
-  name: 'vue-opti-table',
+  name: 'vue-opti-table-next',
   props,
   computed,
   data,
