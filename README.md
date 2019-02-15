@@ -1,4 +1,4 @@
-# vue-opti-table
+# vue-opti-table-next
 
 > VueJS 2 Optimized Datatable
 
