@@ -6,15 +6,15 @@
 
 Install with npm:
 ```
-npm install --save vue-opti-table
+npm install --save vue-opti-table-next
 ```
 
 Import into project:
 ```
 import Vue from 'vue';
-import VueOptiTable from 'vue-opti-table';
+import VueOptiTableNext from 'vue-opti-table-next';
 
-Vue.use(VueOptiTable);
+Vue.use(VueOptiTableNext);
 ```
 
 ### Build Setup
