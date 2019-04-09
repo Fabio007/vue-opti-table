@@ -41,7 +41,7 @@
                         </b-form-checkbox>
                         <div class="info">
                           <span class="badge badge-primary badge-pill">{{ i + 1 }}</span>
-                          <i class="fa fa-sort" aria-hidden="true"></i>
+                          <i class="fa fa-th" aria-hidden="true"></i>
                         </div>
                       </div>
                     </li>
@@ -472,16 +472,16 @@ export default {
           flex-direction: row;
           justify-content: space-between;
           cursor: move;
-          .info {
-            .fa-sort {
-              visibility: hidden;
-            }
-          }
-          &:hover {
-            .info > .fa-sort {
-              visibility: visible;
-            }
-          }
+          // .info {
+          //   .fa-sort {
+          //     visibility: hidden;
+          //   }
+          // }
+          // &:hover {
+          //   .info > .fa-sort {
+          //     visibility: visible;
+          //   }
+          // }
         }
       }
     }

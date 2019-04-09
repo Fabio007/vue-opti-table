@@ -105,7 +105,21 @@ export default {
     if (this.saveSettings) {
       this.saveSettingsLoading = true;
       try {
-        await this.saveSettings(JSON.parse(JSON.stringify(this.$c_sortedHeaderFields)));
+        const fields = JSON.parse(JSON.stringify(this.$c_sortedHeaderFields)).map((item, index) => {
+          const field = {
+            header: {
+              content: item.header.content,
+            },
+            item: {
+              key: item.item.key,
+              sortable: item.item.sortable || true,
+            },
+            display: this.$c_shouldDisplayColumn[index] || false,
+          };
+          if (item.header.info) field.header.info = item.header.info;
+          return field;
+        });
+        await this.saveSettings(fields);
         this.saveSettingsLoading = false;
       } catch (error) {
         this.saveSettingsLoading = false;
