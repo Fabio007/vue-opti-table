@@ -101,8 +101,17 @@ export default {
     this.$emit('click', this.localTableModel);
   },
 
-  $_saveSettings() {
-    window.localStorage.setItem(this.name, JSON.stringify(this.localTableModel));
+  async $_saveSettings() {
+    if (this.saveSettings) {
+      this.saveSettingsLoading = true;
+      try {
+        await this.saveSettings(JSON.parse(JSON.stringify(this.$c_sortedHeaderFields)));
+        this.saveSettingsLoading = false;
+      } catch (error) {
+        this.saveSettingsLoading = false;
+        throw Error('Save settings failed');
+      }
+    }
   },
 
   $_get(obj, key) {

@@ -21,11 +21,12 @@
                         @input="$_submitSearch">
           </b-form-input>
 
-          <b-input-group-button slot="right" v-if="enableColumns">
+          <b-input-group-button slot="right" v-if="enableColumns && saveSettings">
             <b-dropdown text="Columns" class="columns-dropdown" :no-flip="true" right>
               <div class="card">
                 <div class="card-header text-center">
-                  <button class="btn btn-outline-primary btn-sm" @click="$_saveSettings()">Save Settings</button>
+                  <button v-if="saveSettingsLoading" class="btn btn-outline-primary btn-sm" disabled>Saving  <i class="fa fa-spinner fa-spin" aria-hidden="true"></i></button>
+                  <button v-else class="btn btn-outline-primary btn-sm" @click="$_saveSettings()">Save Settings </button>
                 </div>
                 <ul class="list-group list-group-flush">
                   <draggable v-model="localHeaderFields">
@@ -33,13 +34,16 @@
                         v-if="col.item.content"
                         :key="i"
                         class="list-group-item">
-                      <div style="display:flex;flex-direction:row;justify-content:flex-start">
+                      <div class="d-flex justify-content-between w-100">
                         <b-form-checkbox :checked="$c_shouldDisplayColumn[i]"
                                          @change="$_toggleDisplayColumn(col)">
                                          {{ typeof col.header.content == 'function' ? col.header.content() : col.header.content }}
                         </b-form-checkbox>
+                        <div class="info">
+                          <span class="badge badge-primary badge-pill">{{ i + 1 }}</span>
+                          <i class="fa fa-sort" aria-hidden="true"></i>
+                        </div>
                       </div>
-                      <span class="badge badge-primary badge-pill">{{ i + 1 }}</span>
                     </li>
                   </draggable>
                 </ul>
@@ -467,6 +471,17 @@ export default {
           display: flex;
           flex-direction: row;
           justify-content: space-between;
+          cursor: move;
+          .info {
+            .fa-sort {
+              visibility: hidden;
+            }
+          }
+          &:hover {
+            .info > .fa-sort {
+              visibility: visible;
+            }
+          }
         }
       }
     }

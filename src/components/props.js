@@ -20,4 +20,5 @@ export default {
   searchValue: { type: String, default: '' },
   serverSidePagination: { type: Boolean, default: false },
   loading: { type: Boolean, default: false },
+  saveSettings: { type: [Function, null], default: null },
 };

@@ -9,6 +9,7 @@
       @on-search="$_searchExec($event)"
       @on-row-per-page-change="$_paginationChanged($event)"
       @on-pagination="$_paginationChanged($event)"
+      :save-settings="$_saveSettings"
       :defaultRows="pageSize"
       :sort="{ key: 'email', order: 'asc' }"
       :serverSidePagination_UNUSED="serverSidePagination"
@@ -82,6 +83,15 @@ export default {
         });
       }
     },
+    async $_saveSettings(fields) {
+      console.log('Saving...');
+      console.log(fields);
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve(console.log('Settings saved'))
+        }, 3000)
+      })
+    }
   },
   created() {
     this.$_loadData({ page: 0, limit: 10 });
