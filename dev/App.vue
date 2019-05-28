@@ -16,7 +16,7 @@
       :loading="loading"
       :pages="pageCount"
       :page="currentPage"
-      :header-fields="$c_tableFields" 
+      :header-fields="$c_tableFields"
       :items="table.items">
       <template slot="search">
         <vue-opti-select
@@ -37,38 +37,37 @@
 
 <script>
 import Vue from 'vue';
-import BootstrapVue from 'bootstrap-vue';
-import VueOptiTableNext from '../src/index';
-import data from './data';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
-import loader from './loader';
+import BootstrapVue from 'bootstrap-vue';
 import { VueOptiSelect } from 'vue-opti-select';
+import VueOptiTableNext from '../src/index';
+import data from './data';
+import loader from './loader';
 
 Vue.use(BootstrapVue);
 Vue.use(VueOptiTableNext);
 
 export default {
   name: 'test',
-  components: {VueOptiSelect},
+  components: { VueOptiSelect },
   data,
   computed: {
-    $c_tableFields () {
+    $c_tableFields() {
       if (this.tableSelect === 'table2') {
-        return this.table.fields2
-      } else {
-        return this.table.fields
+        return this.table.fields2;
       }
-    }
+      return this.table.fields;
+    },
   },
   methods: {
     $_paginationChanged(evt) {
       this.$_loadData(evt);
     },
     $_searchExec(evt) {
-      console.log(evt)
+      console.log(evt);
       this.$_loadData(evt);
-      console.log(this.pageCount)
+      console.log(this.pageCount);
     },
     $_loadData({ page, limit, sortField, sortType, search, searchableFields }) {
       if (this.serverSidePagination) {
@@ -76,7 +75,7 @@ export default {
         loader(page, limit, sortField, sortType, search, searchableFields).then((r) => {
           this.loading = false;
           this.table.items = r.data;
-          this.pageSize = limit
+          this.pageSize = limit;
           this.pageCount = Math.ceil(r.pageInfo.totalItemsCount / limit);
         }).catch(() => {
           this.loading = false;
@@ -89,9 +88,9 @@ export default {
       return new Promise((resolve) => {
         setTimeout(() => {
           resolve(console.log('Settings saved'))
-        }, 3000)
-      })
-    }
+        }, 3000);
+      });
+    },
   },
   created() {
     this.$_loadData({ page: 0, limit: 10 });
