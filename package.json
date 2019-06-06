@@ -1,11 +1,11 @@
 {
   "name": "vue-opti-table-next",
-  "version": "1.5.11",
+  "version": "1.5.12",
   "description": "VueJS Optimized Datatable",
   "author": "Fabio Papajani <fabiopapajani1991@gmail.com>",
   "main": "dist/vue-opti-table.js",
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "dev": "webpack-dev-server --inline --progress --config build/webnpm publishpack.dev.conf.js",
     "start": "npm run dev",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "test": "npm run unit",
