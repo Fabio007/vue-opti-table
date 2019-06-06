@@ -69,8 +69,11 @@
     </div>
     <!-- END SELECT ALL OPTION -->
     <!--TABLE -->
-    <div class="table-holder">
-      <table :class="[{'table-hover': hover}, 'table table-striped']">
+    <div @scroll="$_onScroll('fakeScroller', 'scroller')" id="fakeScroller" :style="{width: $c_tableContainerWidth}" v-if="isRendered">
+      <div :style="{width: $c_tableWidth}" style="height: 1px"></div>
+    </div>
+    <div class="table-holder" id="scroller" @scroll="$_onScroll('scroller', 'fakeScroller')">
+      <table :class="[{'table-hover': hover}, 'table table-striped']" id="table">
         <!--ALL CHECKBOX & TABLE HEADERS-->
         <thead>
         <tr>
@@ -240,10 +243,17 @@ export default {
     // }
     // this.$emit('click', this.localTableModel);
   },
+  mounted() {
+    this.isRendered = !!document.getElementById('table') && !!document.getElementById('scroller');
+  },
 };
 </script>
 
 <style scoped>
+  #fakeScroller {
+    overflow-x: auto;
+  }
+
   .table-holder {
     overflow-x: auto;
     border: 1px solid #e1e6ef;

@@ -16,6 +16,8 @@ export default function () {
     paginationSize: this.defaultRows,
     localTableModel: {},
     localHeaderFields: [],
+    isRendered: false,
+    areScrolling: 0,
     saveSettingsLoading: false,
   };
 }

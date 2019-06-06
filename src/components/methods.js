@@ -139,4 +139,12 @@ export default {
     }
     return obj[key];
   },
+
+  $_onScroll(from, to) {
+    if (this.areScrolling) return;
+    this.areScrolling = 1;
+    document.getElementById(to).scrollLeft =
+    document.getElementById(from).scrollLeft;
+    this.areScrolling = 0;
+  },
 };

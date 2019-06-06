@@ -197,4 +197,12 @@ export default {
     });
     return table;
   },
+
+  $c_tableWidth() {
+    return getComputedStyle(document.getElementById('table')).width;
+  },
+
+  $c_tableContainerWidth() {
+    return getComputedStyle(document.getElementById('scroller')).width;
+  },
 };
