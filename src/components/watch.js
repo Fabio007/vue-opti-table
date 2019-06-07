@@ -36,4 +36,10 @@ export default { // eslint-disable-next-line
     },
     deep: true,
   },
+  $c_shouldDisplayColumn: {
+    handler() {
+      this.touchedSettingsColumns = true;
+    },
+    deep: true,
+  },
 };

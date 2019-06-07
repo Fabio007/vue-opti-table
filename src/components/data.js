@@ -19,5 +19,6 @@ export default function () {
     isRendered: false,
     areScrolling: 0,
     saveSettingsLoading: false,
+    touchedSettingsColumns: false,
   };
 }

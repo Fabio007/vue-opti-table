@@ -22,12 +22,12 @@
           </b-form-input>
 
           <b-input-group-button slot="right" v-if="enableColumns && saveSettings">
-            <b-dropdown text="Columns" class="columns-dropdown" :no-flip="true" right>
+            <b-dropdown class="columns-dropdown" :no-flip="true" right @hidden="$_saveSettings" :disabled="saveSettingsLoading">
+              <template slot="button-content">
+                <span v-if="saveSettingsLoading">Saving  <i class="fa fa-spinner fa-spin" aria-hidden="true"></i></span>
+                <span v-else>Columns</span>
+              </template>
               <div class="card">
-                <div class="card-header text-center">
-                  <button v-if="saveSettingsLoading" class="btn btn-outline-primary btn-sm" disabled>Saving  <i class="fa fa-spinner fa-spin" aria-hidden="true"></i></button>
-                  <button v-else class="btn btn-outline-primary btn-sm" @click="$_saveSettings()">Save Settings </button>
-                </div>
                 <ul class="list-group list-group-flush">
                   <draggable v-model="localHeaderFields">
                     <li v-for="(col, i) in $c_sortedHeaderFields"

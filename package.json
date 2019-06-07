@@ -5,7 +5,7 @@
   "author": "Fabio Papajani <fabiopapajani1991@gmail.com>",
   "main": "dist/vue-opti-table.js",
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config build/webnpm publishpack.dev.conf.js",
+    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "test": "npm run unit",

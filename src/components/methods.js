@@ -102,7 +102,7 @@ export default {
   },
 
   async $_saveSettings() {
-    if (this.saveSettings) {
+    if (this.saveSettings && this.touchedSettingsColumns) {
       this.saveSettingsLoading = true;
       try {
         const fields = JSON.parse(JSON.stringify(this.$c_sortedHeaderFields)).map((item, index) => {
@@ -120,6 +120,7 @@ export default {
           return field;
         });
         await this.saveSettings(fields);
+        this.touchedSettingsColumns = false;
         this.saveSettingsLoading = false;
       } catch (error) {
         this.saveSettingsLoading = false;
