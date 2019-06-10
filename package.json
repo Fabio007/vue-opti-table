@@ -1,6 +1,6 @@
 {
   "name": "vue-opti-table-next",
-  "version": "1.5.15",
+  "version": "1.5.16",
   "description": "VueJS Optimized Datatable",
   "author": "Fabio Papajani <fabiopapajani1991@gmail.com>",
   "main": "dist/vue-opti-table.js",
