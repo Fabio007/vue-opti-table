@@ -72,7 +72,7 @@
     <div @scroll="$_onScroll('fakeScroller', 'scroller')" id="fakeScroller" :style="{width: $c_tableContainerWidth}" v-if="isRendered">
       <div v-bind:style="{width: $c_tableWidth}" style="height: 1px"></div>
     </div>
-    <div class="table-holder" id="scroller" @scroll="$_onScroll('scroller', 'fakeScroller')" style="width: 500px;">
+    <div class="table-holder" id="scroller" @scroll="$_onScroll('scroller', 'fakeScroller')">
       <table :class="[{'table-hover': hover}, 'table table-striped']" id="table">
         <!--ALL CHECKBOX & TABLE HEADERS-->
         <thead>
@@ -169,6 +169,19 @@
       </vue-opti-select>
       <div class="col-md-auto" v-if="enableExport">
         <download-excel
+          v-if="serverSidePagination"
+          class="btn btn-secondary pointer-button"
+          :fields="$c_exportTable"
+          type="csv"
+          :name="`${exportLabel}.csv`"
+          :fetch="$_csvFetch"
+          :before-generate="() => { csvDownloadLoading = true }"
+          :before-finish="() => { csvDownloadLoading = false }">
+          <span v-if="csvDownloadLoading">Downloading  <i class="fa fa-spinner fa-spin" aria-hidden="true"></i></span>
+          <span v-else>Download CSV</span>
+        </download-excel>
+        <download-excel
+          v-else
           class="btn btn-secondary pointer-button"
           :data="items"
           :fields="$c_exportTable"

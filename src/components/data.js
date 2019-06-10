@@ -21,5 +21,6 @@ export default function () {
     areScrolling: 0,
     saveSettingsLoading: false,
     touchedSettingsColumns: false,
+    csvDownloadLoading: false,
   };
 }

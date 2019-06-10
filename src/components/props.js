@@ -22,4 +22,5 @@ export default {
   loading: { type: Boolean, default: false },
   saveSettings: { type: [Function, null], default: null },
   totals: { type: Object },
+  exportCsvItems: { type: Function, default: () => [] }, // Only Server-Side
 };

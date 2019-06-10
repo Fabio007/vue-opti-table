@@ -205,7 +205,7 @@ export default {
     set() {
       setTimeout(() => {
         this.tableWidth = getComputedStyle(document.getElementById('table')).width;
-        console.log('fake Width', this.tableWidth);
+        // console.log('fake Width', this.tableWidth);
       }, 50);
     },
   },

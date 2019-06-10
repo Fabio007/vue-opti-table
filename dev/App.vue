@@ -12,12 +12,13 @@
       :save-settings="$_saveSettings"
       :defaultRows="pageSize"
       :sort="{ key: 'email', order: 'asc' }"
-      :serverSidePagination_UNUSED="serverSidePagination"
+      :serverSidePagination="serverSidePagination"
       :loading="loading"
       :pages="pageCount"
       :page="currentPage"
       :header-fields="$c_tableFields"
-      :items="table.items">
+      :items="table.items"
+      :exportCsvItems="$_csvFetchData">
       <template slot="search">
         <vue-opti-select
           :list="[ { value: 'table1', content: 'Table 1' }, { value: 'table2', content: 'Table 2' } ]"
@@ -81,6 +82,13 @@ export default {
           this.loading = false;
         });
       }
+    },
+    async $_csvFetchData() {
+      return new Promise((res) => {
+        setTimeout(() => {
+          res([{}]);
+        }, 2000)
+      })
     },
     async $_saveSettings(fields) {
       console.log('Saving...');

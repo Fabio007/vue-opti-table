@@ -149,4 +149,15 @@ export default {
     document.getElementById(from).scrollLeft;
     this.areScrolling = 0;
   },
+
+  async $_csvFetch() {
+    try {
+      const response = await this.exportCsvItems();
+      this.csvDownloadLoading = false;
+      return response;
+    } catch (error) {
+      this.csvDownloadLoading = false;
+      throw error;
+    }
+  },
 };

@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "vue-clipboard2": "0.0.8",
-    "vue-json-excel": "^0.1.7",
+    "vue-json-excel": "^0.2.98",
     "vue-opti-select": "^1.2.3",
     "vuedraggable": "^2.16.0"
   },
