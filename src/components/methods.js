@@ -19,6 +19,7 @@ export default {
   },
   // used for the show/hide columns dropdown
   $_toggleDisplayColumn(col) {
+    this.$c_tableWidth = null;
     const isDisplayed = this.localTableModel.displayColumns.find(column => column.item.key === col.item.key);
     if (isDisplayed) {
       this.localTableModel.displayColumns = this.localTableModel.displayColumns.filter(field => field.item.key !== col.item.key);

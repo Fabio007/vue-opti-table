@@ -70,9 +70,9 @@
     <!-- END SELECT ALL OPTION -->
     <!--TABLE -->
     <div @scroll="$_onScroll('fakeScroller', 'scroller')" id="fakeScroller" :style="{width: $c_tableContainerWidth}" v-if="isRendered">
-      <div :style="{width: $c_tableWidth}" style="height: 1px"></div>
+      <div v-bind:style="{width: $c_tableWidth}" style="height: 1px"></div>
     </div>
-    <div class="table-holder" id="scroller" @scroll="$_onScroll('scroller', 'fakeScroller')">
+    <div class="table-holder" id="scroller" @scroll="$_onScroll('scroller', 'fakeScroller')" style="width: 500px;">
       <table :class="[{'table-hover': hover}, 'table table-striped']" id="table">
         <!--ALL CHECKBOX & TABLE HEADERS-->
         <thead>
@@ -245,6 +245,7 @@ export default {
   },
   mounted() {
     this.isRendered = !!document.getElementById('table') && !!document.getElementById('scroller');
+    this.$c_tableWidth = null;
   },
 };
 </script>

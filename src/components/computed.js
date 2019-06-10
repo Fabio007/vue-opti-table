@@ -198,8 +198,16 @@ export default {
     return table;
   },
 
-  $c_tableWidth() {
-    return getComputedStyle(document.getElementById('table')).width;
+  $c_tableWidth: {
+    get() {
+      return this.tableWidth;
+    },
+    set() {
+      setTimeout(() => {
+        this.tableWidth = getComputedStyle(document.getElementById('table')).width;
+        console.log('fake Width', this.tableWidth);
+      }, 50);
+    },
   },
 
   $c_tableContainerWidth() {

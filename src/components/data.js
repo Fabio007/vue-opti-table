@@ -17,6 +17,7 @@ export default function () {
     localTableModel: {},
     localHeaderFields: [],
     isRendered: false,
+    tableWidth: 0,
     areScrolling: 0,
     saveSettingsLoading: false,
     touchedSettingsColumns: false,
