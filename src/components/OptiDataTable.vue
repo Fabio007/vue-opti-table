@@ -128,7 +128,7 @@
               @click="col.item.onClick && col.item.onClick(item, i)">
             <!-- CHECK IF FIELD IS A SLOT -->
             <div v-if="col.item.slot" :class="[col.item.class, 'field']">
-              <slot :name="col.item.slot" :item="item" :i="i"></slot>
+              <slot :name="col.item.slot" :item="item" :field="col" :i="i"></slot>
             </div>
             <!-- OTHERWISE RENDER FIELD  -->
             <div v-else :class="[col.item.class, 'field']" v-html="col.item.content ? col.item.content(item) : item[col.item.key]">

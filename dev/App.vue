@@ -27,7 +27,9 @@
           placeholder="Tables">
         </vue-opti-select>
       </template>
-
+      <template slot="email" slot-scope="props">
+        {{props.item.email}}
+      </template>
       <template slot="HEADER_email" slot-scope="props" >
         <b-btn size="sm" :pressed.sync="myToggle" variant="outline-info" block>{{props.item.content}}</b-btn>
       </template>
