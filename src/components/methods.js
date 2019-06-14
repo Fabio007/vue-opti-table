@@ -160,4 +160,15 @@ export default {
       throw error;
     }
   },
+
+  async $_xlsFetch() {
+    try {
+      const response = await this.exportCsvItems();
+      this.xlsDownloadLoading = false;
+      return response;
+    } catch (error) {
+      this.xlsDownloadLoading = false;
+      throw error;
+    }
+  },
 };

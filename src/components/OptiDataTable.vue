@@ -185,10 +185,10 @@
             :fields="$c_exportTable"
             type="xls"
             :name="`${exportLabel}.xls`"
-            :fetch="$_csvFetch"
-            :before-generate="() => { csvDownloadLoading = true }"
-            :before-finish="() => { csvDownloadLoading = false }">
-            <span v-if="csvDownloadLoading">Downloading  <i class="fa fa-spinner fa-spin" aria-hidden="true"></i></span>
+            :fetch="$_xlsFetch"
+            :before-generate="() => { xlsDownloadLoading = true }"
+            :before-finish="() => { xlsDownloadLoading = false }">
+            <span v-if="xlsDownloadLoading">Downloading  <i class="fa fa-spinner fa-spin" aria-hidden="true"></i></span>
             <span v-else>Download Exel</span>
           </download-excel>
         </template>

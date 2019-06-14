@@ -24,5 +24,6 @@ export default function () {
     saveSettingsLoading: false,
     touchedSettingsColumns: false,
     csvDownloadLoading: false,
+    xlsDownloadLoading: false,
   };
 }
