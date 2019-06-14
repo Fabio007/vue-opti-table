@@ -168,27 +168,48 @@
                        @click="$_pageSizeChanged()">
       </vue-opti-select>
       <div class="col-md-auto" v-if="enableExport">
-        <download-excel
-          v-if="serverSidePagination"
-          class="btn btn-secondary pointer-button"
-          :fields="$c_exportTable"
-          type="csv"
-          :name="`${exportLabel}.csv`"
-          :fetch="$_csvFetch"
-          :before-generate="() => { csvDownloadLoading = true }"
-          :before-finish="() => { csvDownloadLoading = false }">
-          <span v-if="csvDownloadLoading">Downloading  <i class="fa fa-spinner fa-spin" aria-hidden="true"></i></span>
-          <span v-else>Download CSV</span>
-        </download-excel>
-        <download-excel
-          v-else
-          class="btn btn-secondary pointer-button"
-          :data="items"
-          :fields="$c_exportTable"
-          type="csv"
-          :name="`${exportLabel}.csv`">
-          Download CSV
-        </download-excel>
+        <template v-if="serverSidePagination">
+          <download-excel
+            class="btn btn-secondary pointer-button"
+            :fields="$c_exportTable"
+            type="csv"
+            :name="`${exportLabel}.csv`"
+            :fetch="$_csvFetch"
+            :before-generate="() => { csvDownloadLoading = true }"
+            :before-finish="() => { csvDownloadLoading = false }">
+            <span v-if="csvDownloadLoading">Downloading  <i class="fa fa-spinner fa-spin" aria-hidden="true"></i></span>
+            <span v-else>Download CSV</span>
+          </download-excel>
+          <download-excel
+            class="btn btn-secondary pointer-button ml-3"
+            :fields="$c_exportTable"
+            type="xls"
+            :name="`${exportLabel}.xls`"
+            :fetch="$_csvFetch"
+            :before-generate="() => { csvDownloadLoading = true }"
+            :before-finish="() => { csvDownloadLoading = false }">
+            <span v-if="csvDownloadLoading">Downloading  <i class="fa fa-spinner fa-spin" aria-hidden="true"></i></span>
+            <span v-else>Download Exel</span>
+          </download-excel>
+        </template>
+        <template v-else>
+          <download-excel
+            class="btn btn-secondary pointer-button"
+            :data="items"
+            :fields="$c_exportTable"
+            type="csv"
+            :name="`${exportLabel}.csv`">
+            Download CSV
+          </download-excel>
+          <download-excel
+            class="btn btn-secondary pointer-button ml-3"
+            :data="items"
+            :fields="$c_exportTable"
+            type="xls"
+            :name="`${exportLabel}.xls`">
+            Download Exel
+          </download-excel>
+        </template>
       </div>
       <div class="col-md-4 col-sm-12 ml-md-auto">
         <ul class="pagination justify-content-end unselectable">
