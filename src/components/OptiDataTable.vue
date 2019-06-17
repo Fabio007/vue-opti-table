@@ -189,7 +189,7 @@
             :before-generate="() => { xlsDownloadLoading = true }"
             :before-finish="() => { xlsDownloadLoading = false }">
             <span v-if="xlsDownloadLoading">Downloading  <i class="fa fa-spinner fa-spin" aria-hidden="true"></i></span>
-            <span v-else>Download Exel</span>
+            <span v-else>Download Excel</span>
           </download-excel>
         </template>
         <template v-else>
@@ -207,7 +207,7 @@
             :fields="$c_exportTable"
             type="xls"
             :name="`${exportLabel}.xls`">
-            Download Exel
+            Download Excel
           </download-excel>
         </template>
       </div>
