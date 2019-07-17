@@ -69,11 +69,16 @@
     </div>
     <!-- END SELECT ALL OPTION -->
     <!--TABLE -->
-    <div @scroll="$_onScroll('fakeScroller', 'scroller')" id="fakeScroller" :style="{width: $c_tableContainerWidth}" v-if="isRendered">
+    <div
+      class="fakeScroller"
+      @scroll="$_onScroll(randomFakeId, randomScrollId)"
+      :id="randomFakeId"
+      :style="{width: $c_tableContainerWidth}"
+      v-if="isRendered">
       <div v-bind:style="{width: $c_tableWidth}" style="height: 1px"></div>
     </div>
-    <div class="table-holder" id="scroller" @scroll="$_onScroll('scroller', 'fakeScroller')">
-      <table :class="[{'table-hover': hover}, 'table table-striped']" id="table">
+    <div class="table-holder" :id="randomScrollId" @scroll="$_onScroll(randomScrollId, randomFakeId)">
+      <table :class="[{'table-hover': hover}, 'table table-striped']" :id="randomTableId">
         <!--ALL CHECKBOX & TABLE HEADERS-->
         <thead>
         <tr>
@@ -276,16 +281,22 @@ export default {
     //   this.localTableModel.displayColumns = this.localHeaderFields.filter(field => field.display !== false);
     // }
     // this.$emit('click', this.localTableModel);
+    this.isRendered = false;
+    this.randomFakeId = Math.random().toString(36).substring(7);
+    this.randomScrollId = Math.random().toString(36).substring(7);
+    this.randomTableId = Math.random().toString(36).substring(7);
   },
   mounted() {
-    this.isRendered = !!document.getElementById('table') && !!document.getElementById('scroller');
-    this.$c_tableWidth = null;
+    setTimeout(() => {
+      this.tableWidth = getComputedStyle(document.getElementById(this.randomTableId)).width;
+      this.tableContainerWidth = getComputedStyle(document.getElementById(this.randomScrollId)).width;
+    }, 50);
   },
 };
 </script>
 
 <style scoped>
-  #fakeScroller {
+  .fakeScroller {
     overflow-x: auto;
   }
 

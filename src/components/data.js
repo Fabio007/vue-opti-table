@@ -20,10 +20,14 @@ export default function () {
     localHeaderFields: [],
     isRendered: false,
     tableWidth: 0,
+    tableContainerWidth: 0,
     areScrolling: 0,
     saveSettingsLoading: false,
     touchedSettingsColumns: false,
     csvDownloadLoading: false,
     xlsDownloadLoading: false,
+    randomFakeId: null,
+    randomScrollId: null,
+    randomTableId: null,
   };
 }

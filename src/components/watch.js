@@ -4,6 +4,9 @@ export default { // eslint-disable-next-line
       this.currentPage = 1;
     }
   },
+  tableWidth() {
+    this.isRendered = !!document.getElementById(this.randomTableId) && !!document.getElementById(this.randomScrollId);
+  },
   items() {
     if (!this.serverSidePagination) {
       this.$_changePageAction(1);
