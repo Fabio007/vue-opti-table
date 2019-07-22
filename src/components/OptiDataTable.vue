@@ -172,7 +172,7 @@
       <vue-opti-select class="col-md-2 col-sm-12" v-model="paginationSize" :list="rows"
                        @click="$_pageSizeChanged()">
       </vue-opti-select>
-      <div class="col-md-auto" v-if="enableExport">
+      <div class="col-md-auto" v-if="enableExport && isRendered">
         <template v-if="serverSidePagination">
           <download-excel
             class="btn btn-secondary pointer-button"
