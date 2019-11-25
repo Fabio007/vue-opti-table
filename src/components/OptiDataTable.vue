@@ -219,8 +219,8 @@
       <div class="col-md-4 col-sm-12 ml-md-auto">
         <ul class="pagination justify-content-end unselectable">
           <li class="page-item">
-            <a class="page-link" style="font-size: 9px; padding-top: 9px;" @click="$_changePageAction(1)">
-              <span aria-hidden="true">&laquo;</span>
+            <a class="page-link d-flex justify-content-center align-items-center" style="font-size: 9px; padding-top: 9px;" @click="$_changePageAction(1)">
+              <span aria-hidden="true" style="margin-right: 2px;margin-top: -2px">&laquo;</span>
               <span class="sr-only">Previous</span>
               1</a>
           </li>
@@ -228,9 +228,9 @@
               class="page-item"><a :class="{'btn-bg-color': currentPage === page}" class="page-link"
                                    @click="$_changePageAction(page)">{{ page }}</a></li>
           <li class="page-item">
-            <a class="page-link" style="font-size: 9px; padding-top: 9px;" @click="$_changePageAction($c_pages)">{{
-              $c_pages }}
-              <span aria-hidden="true">&raquo;</span>
+            <a class="page-link d-flex justify-content-center align-items-center" style="font-size: 9px; padding-top: 9px;" @click="$_changePageAction($c_pages)">
+              <span>{{ $c_pages }}</span>
+              <span aria-hidden="true" style="margin-left: 2px;margin-top: -2px">&raquo;</span>
               <span class="sr-only">Next</span>
             </a>
           </li>
