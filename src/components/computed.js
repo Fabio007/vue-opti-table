@@ -9,6 +9,9 @@ export default {
     return !!this.$c_sortedHeaderFields.find(field => !!field.item.filter);
   },
   $c_totals() {
+    if (this.totals) {
+      return this.totals;
+    }
     return Object.assign({}, ...this.$c_sortedHeaderFields.filter(field => field.item.total).map(field => ({ [field.item.key]: this.$c_items.reduce((s, item) => s + (field.item.total.parse ? field.item.total.parse(getLeafValue(field.item.key, item)) : getLeafValue(field.item.key, item)), 0) })));
   },
   // search
@@ -193,5 +196,20 @@ export default {
       }
     });
     return table;
+  },
+
+  $c_tableWidth: {
+    get() {
+      return this.tableWidth;
+    },
+    set() {
+      setTimeout(() => {
+        this.tableWidth = getComputedStyle(document.getElementById(this.randomTableId)).width;
+      }, 50);
+    },
+  },
+
+  $c_tableContainerWidth() {
+    return getComputedStyle(document.getElementById(this.randomScrollId)).width;
   },
 };

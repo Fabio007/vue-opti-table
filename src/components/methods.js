@@ -19,6 +19,7 @@ export default {
   },
   // used for the show/hide columns dropdown
   $_toggleDisplayColumn(col) {
+    this.$c_tableWidth = null;
     const isDisplayed = this.localTableModel.displayColumns.find(column => column.item.key === col.item.key);
     if (isDisplayed) {
       this.localTableModel.displayColumns = this.localTableModel.displayColumns.filter(field => field.item.key !== col.item.key);
@@ -101,8 +102,32 @@ export default {
     this.$emit('click', this.localTableModel);
   },
 
-  $_saveSettings() {
-    window.localStorage.setItem(this.name, JSON.stringify(this.localTableModel));
+  async $_saveSettings() {
+    if (this.saveSettings && this.touchedSettingsColumns) {
+      this.saveSettingsLoading = true;
+      try {
+        const fields = JSON.parse(JSON.stringify(this.$c_sortedHeaderFields)).map((item, index) => {
+          const field = {
+            header: {
+              content: item.header.content,
+            },
+            item: {
+              key: item.item.key,
+              sortable: item.item.sortable || true,
+            },
+            display: this.$c_shouldDisplayColumn[index] || false,
+          };
+          if (item.header.info) field.header.info = item.header.info;
+          return field;
+        });
+        await this.saveSettings(fields);
+        this.touchedSettingsColumns = false;
+        this.saveSettingsLoading = false;
+      } catch (error) {
+        this.saveSettingsLoading = false;
+        throw Error('Save settings failed');
+      }
+    }
   },
 
   $_get(obj, key) {
@@ -115,5 +140,35 @@ export default {
       }, obj);
     }
     return obj[key];
+  },
+
+  $_onScroll(from, to) {
+    if (this.areScrolling) return;
+    this.areScrolling = 1;
+    document.getElementById(to).scrollLeft =
+    document.getElementById(from).scrollLeft;
+    this.areScrolling = 0;
+  },
+
+  async $_csvFetch() {
+    try {
+      const response = await this.exportCsvItems();
+      this.csvDownloadLoading = false;
+      return response;
+    } catch (error) {
+      this.csvDownloadLoading = false;
+      throw error;
+    }
+  },
+
+  async $_xlsFetch() {
+    try {
+      const response = await this.exportCsvItems();
+      this.xlsDownloadLoading = false;
+      return response;
+    } catch (error) {
+      this.xlsDownloadLoading = false;
+      throw error;
+    }
   },
 };

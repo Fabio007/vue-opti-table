@@ -45,10 +45,14 @@ export default function () {
           header: { content: 'Email', style: '', slot: 'email', preventSort: true },
           item: {
             key: 'email',
+            slot: 'email',
             content: item => item.email,
             sortable: true,
             searchable: true,
             style: { textAlign: 'center' },
+          },
+          options: {
+            customprop: 'test',
           },
         },
         {

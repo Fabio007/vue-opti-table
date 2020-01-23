@@ -1,6 +1,6 @@
 {
   "name": "vue-opti-table-next",
-  "version": "1.5.8",
+  "version": "1.5.24",
   "description": "VueJS Optimized Datatable",
   "author": "Fabio Papajani <fabiopapajani1991@gmail.com>",
   "main": "dist/vue-opti-table.js",
@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "vue-clipboard2": "0.0.8",
-    "vue-json-excel": "^0.1.7",
+    "vue-json-excel": "^0.2.98",
     "vue-opti-select": "^1.2.3",
     "vuedraggable": "^2.16.0"
   },

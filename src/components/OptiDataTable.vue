@@ -21,25 +21,29 @@
                         @input="$_submitSearch">
           </b-form-input>
 
-          <b-input-group-button slot="right" v-if="enableColumns">
-            <b-dropdown text="Columns" class="columns-dropdown" :no-flip="true" right>
+          <b-input-group-button slot="right" v-if="enableColumns && saveSettings">
+            <b-dropdown class="columns-dropdown" :no-flip="true" right @hidden="$_saveSettings" :disabled="saveSettingsLoading">
+              <template slot="button-content">
+                <span v-if="saveSettingsLoading">Saving  <i class="fa fa-spinner fa-spin" aria-hidden="true"></i></span>
+                <span v-else>Columns</span>
+              </template>
               <div class="card">
-                <div class="card-header text-center">
-                  <button class="btn btn-outline-primary btn-sm" @click="$_saveSettings()">Save Settings</button>
-                </div>
                 <ul class="list-group list-group-flush">
                   <draggable v-model="localHeaderFields">
                     <li v-for="(col, i) in $c_sortedHeaderFields"
                         v-if="col.item.content"
                         :key="i"
                         class="list-group-item">
-                      <div style="display:flex;flex-direction:row;justify-content:flex-start">
+                      <div class="d-flex justify-content-between w-100">
                         <b-form-checkbox :checked="$c_shouldDisplayColumn[i]"
                                          @change="$_toggleDisplayColumn(col)">
                                          {{ typeof col.header.content == 'function' ? col.header.content() : col.header.content }}
                         </b-form-checkbox>
+                        <div class="info">
+                          <span class="badge badge-primary badge-pill">{{ i + 1 }}</span>
+                          <i class="fa fa-th" aria-hidden="true"></i>
+                        </div>
                       </div>
-                      <span class="badge badge-primary badge-pill">{{ i + 1 }}</span>
                     </li>
                   </draggable>
                 </ul>
@@ -65,8 +69,16 @@
     </div>
     <!-- END SELECT ALL OPTION -->
     <!--TABLE -->
-    <div class="table-holder">
-      <table :class="[{'table-hover': hover}, 'table table-striped']">
+    <div
+      class="fakeScroller"
+      @scroll="$_onScroll(randomFakeId, randomScrollId)"
+      :id="randomFakeId"
+      :style="{width: $c_tableContainerWidth}"
+      v-if="isRendered">
+      <div v-bind:style="{width: $c_tableWidth}" style="height: 1px"></div>
+    </div>
+    <div class="table-holder" :id="randomScrollId" @scroll="$_onScroll(randomScrollId, randomFakeId)">
+      <table :class="[{'table-hover': hover}, 'table table-striped']" :id="randomTableId">
         <!--ALL CHECKBOX & TABLE HEADERS-->
         <thead>
         <tr>
@@ -121,7 +133,7 @@
               @click="col.item.onClick && col.item.onClick(item, i)">
             <!-- CHECK IF FIELD IS A SLOT -->
             <div v-if="col.item.slot" :class="[col.item.class, 'field']">
-              <slot :name="col.item.slot" :item="item" :i="i"></slot>
+              <slot :name="col.item.slot" :item="item" :field="col" :i="i"></slot>
             </div>
             <!-- OTHERWISE RENDER FIELD  -->
             <div v-else :class="[col.item.class, 'field']" v-html="col.item.content ? col.item.content(item) : item[col.item.key]">
@@ -160,21 +172,55 @@
       <vue-opti-select class="col-md-2 col-sm-12" v-model="paginationSize" :list="rows"
                        @click="$_pageSizeChanged()">
       </vue-opti-select>
-      <div class="col-md-auto" v-if="enableExport">
-        <download-excel
-          class="btn btn-secondary pointer-button"
-          :data="items"
-          :fields="$c_exportTable"
-          type="csv"
-          :name="`${exportLabel}.csv`">
-          Download CSV
-        </download-excel>
+      <div class="col-md-auto" v-if="enableExport && isRendered">
+        <template v-if="serverSidePagination">
+          <download-excel
+            class="btn btn-secondary pointer-button"
+            :fields="$c_exportTable"
+            type="csv"
+            :name="`${exportLabel}.csv`"
+            :fetch="$_csvFetch"
+            :before-generate="() => { csvDownloadLoading = true }"
+            :before-finish="() => { csvDownloadLoading = false }">
+            <span v-if="csvDownloadLoading">Downloading  <i class="fa fa-spinner fa-spin" aria-hidden="true"></i></span>
+            <span v-else>Download CSV</span>
+          </download-excel>
+          <download-excel
+            class="btn btn-secondary pointer-button ml-3"
+            :fields="$c_exportTable"
+            type="xls"
+            :name="`${exportLabel}.xls`"
+            :fetch="$_xlsFetch"
+            :before-generate="() => { xlsDownloadLoading = true }"
+            :before-finish="() => { xlsDownloadLoading = false }">
+            <span v-if="xlsDownloadLoading">Downloading  <i class="fa fa-spinner fa-spin" aria-hidden="true"></i></span>
+            <span v-else>Download Excel</span>
+          </download-excel>
+        </template>
+        <template v-else>
+          <download-excel
+            class="btn btn-secondary pointer-button"
+            :data="items"
+            :fields="$c_exportTable"
+            type="csv"
+            :name="`${exportLabel}.csv`">
+            Download CSV
+          </download-excel>
+          <download-excel
+            class="btn btn-secondary pointer-button ml-3"
+            :data="items"
+            :fields="$c_exportTable"
+            type="xls"
+            :name="`${exportLabel}.xls`">
+            Download Excel
+          </download-excel>
+        </template>
       </div>
       <div class="col-md-4 col-sm-12 ml-md-auto">
         <ul class="pagination justify-content-end unselectable">
           <li class="page-item">
-            <a class="page-link" style="font-size: 9px; padding-top: 9px;" @click="$_changePageAction(1)">
-              <span aria-hidden="true">&laquo;</span>
+            <a class="page-link d-flex justify-content-center align-items-center" style="font-size: 9px; padding-top: 9px;" @click="$_changePageAction(1)">
+              <span aria-hidden="true" style="margin-right: 2px;margin-top: -2px">&laquo;</span>
               <span class="sr-only">Previous</span>
               1</a>
           </li>
@@ -182,9 +228,9 @@
               class="page-item"><a :class="{'btn-bg-color': currentPage === page}" class="page-link"
                                    @click="$_changePageAction(page)">{{ page }}</a></li>
           <li class="page-item">
-            <a class="page-link" style="font-size: 9px; padding-top: 9px;" @click="$_changePageAction($c_pages)">{{
-              $c_pages }}
-              <span aria-hidden="true">&raquo;</span>
+            <a class="page-link d-flex justify-content-center align-items-center" style="font-size: 9px; padding-top: 9px;" @click="$_changePageAction($c_pages)">
+              <span>{{ $c_pages }}</span>
+              <span aria-hidden="true" style="margin-left: 2px;margin-top: -2px">&raquo;</span>
               <span class="sr-only">Next</span>
             </a>
           </li>
@@ -235,11 +281,25 @@ export default {
     //   this.localTableModel.displayColumns = this.localHeaderFields.filter(field => field.display !== false);
     // }
     // this.$emit('click', this.localTableModel);
+    this.isRendered = false;
+    this.randomFakeId = Math.random().toString(36).substring(7);
+    this.randomScrollId = Math.random().toString(36).substring(7);
+    this.randomTableId = Math.random().toString(36).substring(7);
+  },
+  mounted() {
+    setTimeout(() => {
+      this.tableWidth = getComputedStyle(document.getElementById(this.randomTableId)).width;
+      this.tableContainerWidth = getComputedStyle(document.getElementById(this.randomScrollId)).width;
+    }, 50);
   },
 };
 </script>
 
 <style scoped>
+  .fakeScroller {
+    overflow-x: auto;
+  }
+
   .table-holder {
     overflow-x: auto;
     border: 1px solid #e1e6ef;
@@ -467,6 +527,17 @@ export default {
           display: flex;
           flex-direction: row;
           justify-content: space-between;
+          cursor: move;
+          // .info {
+          //   .fa-sort {
+          //     visibility: hidden;
+          //   }
+          // }
+          // &:hover {
+          //   .info > .fa-sort {
+          //     visibility: visible;
+          //   }
+          // }
         }
       }
     }
