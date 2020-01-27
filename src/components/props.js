@@ -23,4 +23,5 @@ export default {
   saveSettings: { type: [Function, null], default: null },
   totals: { type: Object },
   exportCsvItems: { type: Function, default: () => [] }, // Only Server-Side
+  columnFilter: { type: Boolean, default: false },
 };

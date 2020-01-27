@@ -18,6 +18,7 @@ export default function () {
     paginationSize: this.defaultRows,
     localTableModel: {},
     localHeaderFields: [],
+    filterFieldsModels: {},
     isRendered: false,
     tableWidth: 0,
     tableContainerWidth: 0,

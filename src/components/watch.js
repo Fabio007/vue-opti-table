@@ -28,6 +28,10 @@ export default { // eslint-disable-next-line
       this.localTableModel = this.tableModel;
       this.localHeaderFields = this.headerFields;
       this.localTableModel.displayColumns = this.localHeaderFields.filter(field => field.display !== false);
+      this.localHeaderFields.forEach((col) => {
+        if (col.item.filter && !this.filterFieldsModels[col.item.key]) this.$set(this.filterFieldsModels, col.item.key, []);
+        // if (col.item.filter) this.filterFieldsModels[col.item.key] = [{ condition: 'greater_equal', value: 20 }, { condition: 'less_equal', value: 40 }];
+      });
       // if (window.localStorage.getItem(this.name)) {
       //   this.localTableModel.displayColumns = JSON.parse(window.localStorage.getItem(this.name)).displayColumns;
       //   this.localHeaderFields = JSON.parse(window.localStorage.getItem(this.name)).columnsOrder;
@@ -42,6 +46,12 @@ export default { // eslint-disable-next-line
   $c_shouldDisplayColumn: {
     handler() {
       this.touchedSettingsColumns = true;
+    },
+    deep: true,
+  },
+  filterFieldsModels: {
+    handler() {
+      this.$_submitColumnFilter();
     },
     deep: true,
   },

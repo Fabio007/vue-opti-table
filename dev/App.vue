@@ -9,6 +9,7 @@
       @on-search="$_searchExec($event)"
       @on-row-per-page-change="$_paginationChanged($event)"
       @on-pagination="$_paginationChanged($event)"
+      @on-column-filter="$_columnFilterChanged($event)"
       :save-settings="$_saveSettings"
       :defaultRows="pageSize"
       :sort="{ key: 'email', order: 'asc' }"
@@ -18,7 +19,8 @@
       :page="currentPage"
       :header-fields="$c_tableFields"
       :items="table.items"
-      :exportCsvItems="$_csvFetchData">
+      :exportCsvItems="$_csvFetchData"
+      :column-filter="true">
       <template slot="search">
         <vue-opti-select
           :list="[ { value: 'table1', content: 'Table 1' }, { value: 'table2', content: 'Table 2' } ]"
@@ -68,6 +70,11 @@ export default {
       this.$_loadData(evt);
     },
     $_searchExec(evt) {
+      console.log(evt);
+      this.$_loadData(evt);
+      console.log(this.pageCount);
+    },
+    $_columnFilterChanged(evt) {
       console.log(evt);
       this.$_loadData(evt);
       console.log(this.pageCount);

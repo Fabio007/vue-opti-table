@@ -66,8 +66,19 @@ export default {
     this.$_paginationEvent('search');
   },
 
+  $_submitColumnFilter() {
+    this.currentPage = 1;
+    this.$_paginationEvent('column-filter');
+  },
+
   $_paginationEvent(type) {
     if (this.serverSidePagination) {
+      // Remove empty filter
+      const columnFilter = JSON.parse(JSON.stringify(this.filterFieldsModels));
+      Object.keys(columnFilter).forEach((key) => {
+        if (!columnFilter[key].length) delete columnFilter[key];
+      });
+      // --------------------
       this.$emit(`on-${type}`, {
         page: this.currentPage,
         pages: this.pages,
@@ -76,6 +87,7 @@ export default {
         sortType: this.sortOrder,
         search: this.models.search,
         searchableFields: this.$c_searchableFields,
+        columnFilter,
       });
     }
   },

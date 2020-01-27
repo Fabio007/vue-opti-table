@@ -72,6 +72,7 @@ export default function () {
             content: item => item.balance,
             sortable: true,
             searchable: true,
+            filter: true,
             style: { textAlign: 'center' },
             total: {
               parse: value => parseFloat(value.replace(/\$|,/gi, '')),
@@ -107,9 +108,10 @@ export default function () {
             content: item => item.age,
             sortable: true,
             searchable: true,
+            filter: true,
             style: { textAlign: 'center' },
           },
-          display: false,
+          display: true,
         },
         {
           header: { content: 'Registered', style: '' },

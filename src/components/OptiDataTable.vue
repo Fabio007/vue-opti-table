@@ -116,6 +116,14 @@
             </div>
           </th>
         </tr>
+        <tr v-if="columnFilter" class="column-filter">
+          <th v-if="selectable"></th>
+          <th v-for="(col, i) in $c_sortedHeaderFields" v-if="$c_shouldDisplayColumn[i]" :key="i">
+            <template v-if="filterFieldsModels[col.item.key]">
+              <filter-input v-model="filterFieldsModels[col.item.key]" />
+            </template>
+          </th>
+        </tr>
         </thead>
         <tbody>
         <tr v-for="(item, i) in $c_itemsCurrentPage" :key="i">
@@ -254,6 +262,7 @@ import data from './data';
 import computed from './computed';
 import methods from './methods';
 import watch from './watch';
+import FilterInput from './FilterInput';
 
 export default {
   name: 'vue-opti-table-next',
@@ -266,6 +275,7 @@ export default {
     downloadExcel: JsonExcel,
     VueOptiSelect,
     draggable,
+    FilterInput,
   },
   model: {
     prop: 'tableModel',
