@@ -66,19 +66,19 @@ export default {
     this.$_paginationEvent('search');
   },
 
-  $_submitColumnFilter() {
+  $_onChangeColumnFilter() {
     this.currentPage = 1;
+    // Remove empty filter
+    const columnFilter = JSON.parse(JSON.stringify(this.filterFieldsModels));
+    Object.keys(columnFilter).forEach((key) => {
+      if (!columnFilter[key].length) delete columnFilter[key];
+    });
+    this.$emit('update:columnFilter', columnFilter);
     this.$_paginationEvent('column-filter');
   },
 
   $_paginationEvent(type) {
     if (this.serverSidePagination) {
-      // Remove empty filter
-      const columnFilter = JSON.parse(JSON.stringify(this.filterFieldsModels));
-      Object.keys(columnFilter).forEach((key) => {
-        if (!columnFilter[key].length) delete columnFilter[key];
-      });
-      // --------------------
       this.$emit(`on-${type}`, {
         page: this.currentPage,
         pages: this.pages,
@@ -87,7 +87,7 @@ export default {
         sortType: this.sortOrder,
         search: this.models.search,
         searchableFields: this.$c_searchableFields,
-        columnFilter,
+        columnFilter: this.columnFilter,
       });
     }
   },
@@ -152,14 +152,6 @@ export default {
       }, obj);
     }
     return obj[key];
-  },
-
-  $_onScroll(from, to) {
-    if (this.areScrolling) return;
-    this.areScrolling = 1;
-    document.getElementById(to).scrollLeft =
-    document.getElementById(from).scrollLeft;
-    this.areScrolling = 0;
   },
 
   async $_csvFetch() {

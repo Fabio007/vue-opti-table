@@ -69,16 +69,11 @@
     </div>
     <!-- END SELECT ALL OPTION -->
     <!--TABLE -->
-    <div
-      class="fakeScroller"
-      @scroll="$_onScroll(randomFakeId, randomScrollId)"
-      :id="randomFakeId"
-      :style="{width: $c_tableContainerWidth}"
-      v-if="isRendered">
-      <div v-bind:style="{width: $c_tableWidth}" style="height: 1px"></div>
+    <div ref="scrollerTop" class="fakeScroller">
+      <div style="height: 1px"></div>
     </div>
-    <div class="table-holder" :id="randomScrollId" @scroll="$_onScroll(randomScrollId, randomFakeId)">
-      <table :class="[{'table-hover': hover}, 'table table-striped']" :id="randomTableId">
+    <div ref="tableHolder" class="table-holder">
+      <table ref="table" :class="[{'table-hover': hover}, 'table table-striped']">
         <!--ALL CHECKBOX & TABLE HEADERS-->
         <thead>
         <tr>
@@ -116,11 +111,11 @@
             </div>
           </th>
         </tr>
-        <tr v-if="columnFilter" class="column-filter">
+        <tr v-if="enableColumnFilter" class="column-filter">
           <th v-if="selectable"></th>
           <th v-for="(col, i) in $c_sortedHeaderFields" v-if="$c_shouldDisplayColumn[i]" :key="i">
             <template v-if="filterFieldsModels[col.item.key]">
-              <filter-input v-model="filterFieldsModels[col.item.key]" />
+              <filter-input v-model="filterFieldsModels[col.item.key]" @input="(payload) => $_onChangeColumnFilter(col.item.key, payload)" />
             </template>
           </th>
         </tr>
@@ -180,7 +175,7 @@
       <vue-opti-select class="col-md-2 col-sm-12" v-model="paginationSize" :list="rows"
                        @click="$_pageSizeChanged()">
       </vue-opti-select>
-      <div class="col-md-auto" v-if="enableExport && isRendered">
+      <div class="col-md-auto" v-if="enableExport">
         <template v-if="serverSidePagination">
           <download-excel
             class="btn btn-secondary pointer-button"
@@ -291,16 +286,30 @@ export default {
     //   this.localTableModel.displayColumns = this.localHeaderFields.filter(field => field.display !== false);
     // }
     // this.$emit('click', this.localTableModel);
-    this.isRendered = false;
-    this.randomFakeId = Math.random().toString(36).substring(7);
-    this.randomScrollId = Math.random().toString(36).substring(7);
-    this.randomTableId = Math.random().toString(36).substring(7);
   },
   mounted() {
-    setTimeout(() => {
-      this.tableWidth = getComputedStyle(document.getElementById(this.randomTableId)).width;
-      this.tableContainerWidth = getComputedStyle(document.getElementById(this.randomScrollId)).width;
-    }, 50);
+    /* ------------ Fake scroller Bind events -------------*/
+    const scrollerTop = this.$refs.scrollerTop;
+    const tableHolder = this.$refs.tableHolder;
+    const table = this.$refs.table;
+    const scrollerTopChild = scrollerTop.childNodes[0];
+    let areScrolling = 0;
+    const onScrollFn = (from, to) => {
+      if (areScrolling) return;
+      areScrolling = 1;
+      to.scrollLeft = from.scrollLeft;
+      areScrolling = 0;
+    };
+    scrollerTop.onscroll = () => onScrollFn(scrollerTop, tableHolder);
+    tableHolder.onscroll = () => onScrollFn(tableHolder, scrollerTop);
+    // Observator
+    const scrollObserver = new ResizeObserver(() => {
+      scrollerTop.style.width = getComputedStyle(tableHolder).width;
+      scrollerTopChild.style.width = getComputedStyle(table).width;
+    });
+    scrollObserver.observe(tableHolder);
+    scrollObserver.observe(table);
+    /* ------------ ------------------------- -------------*/
   },
 };
 </script>

@@ -197,19 +197,4 @@ export default {
     });
     return table;
   },
-
-  $c_tableWidth: {
-    get() {
-      return this.tableWidth;
-    },
-    set() {
-      setTimeout(() => {
-        this.tableWidth = getComputedStyle(document.getElementById(this.randomTableId)).width;
-      }, 50);
-    },
-  },
-
-  $c_tableContainerWidth() {
-    return getComputedStyle(document.getElementById(this.randomScrollId)).width;
-  },
 };

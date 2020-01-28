@@ -1,11 +1,10 @@
+// import _ from 'lodash';
+
 export default { // eslint-disable-next-line
   'models.search': function (value) {
     if (!this.serverSidePagination) {
       this.currentPage = 1;
     }
-  },
-  tableWidth() {
-    this.isRendered = !!document.getElementById(this.randomTableId) && !!document.getElementById(this.randomScrollId);
   },
   items() {
     if (!this.serverSidePagination) {
@@ -28,9 +27,9 @@ export default { // eslint-disable-next-line
       this.localTableModel = this.tableModel;
       this.localHeaderFields = this.headerFields;
       this.localTableModel.displayColumns = this.localHeaderFields.filter(field => field.display !== false);
+      this.filterFieldsModels = {};
       this.localHeaderFields.forEach((col) => {
-        if (col.item.filter && !this.filterFieldsModels[col.item.key]) this.$set(this.filterFieldsModels, col.item.key, []);
-        // if (col.item.filter) this.filterFieldsModels[col.item.key] = [{ condition: 'greater_equal', value: 20 }, { condition: 'less_equal', value: 40 }];
+        if (col.item.filter) this.$set(this.filterFieldsModels, col.item.key, this.columnFilter[col.item.key] || []);
       });
       // if (window.localStorage.getItem(this.name)) {
       //   this.localTableModel.displayColumns = JSON.parse(window.localStorage.getItem(this.name)).displayColumns;
@@ -49,9 +48,12 @@ export default { // eslint-disable-next-line
     },
     deep: true,
   },
-  filterFieldsModels: {
-    handler() {
-      this.$_submitColumnFilter();
+  columnFilter: {
+    handler(value) {
+      const copyValue = JSON.parse(JSON.stringify(value));
+      Object.keys(this.filterFieldsModels).forEach((key) => {
+        this.filterFieldsModels[key] = copyValue[key] || [];
+      });
     },
     deep: true,
   },

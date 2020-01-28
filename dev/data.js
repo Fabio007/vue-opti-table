@@ -210,5 +210,6 @@ export default function () {
     },
     myToggle: false,
     tableSelect: 'table1',
+    columnFilter: {},
   };
 }

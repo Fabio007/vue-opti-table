@@ -1,6 +1,6 @@
 <template>
   <div class="regex-filter-wraper">
-    <input v-b-tooltip="{ html: true, hover: true, title: 'Values 10 to 20:<br /> 10..20<br />Values exactly 50:<br /> =50' }" v-model="inputVal"  :placeholder="placeholder" @change="$_change" :class="`${hasError ? errorClass : ''}`">
+    <input v-b-tooltip="{ html: true, hover: true, placement: 'top', boundary: 'window', title: 'Values 10 to 20:<br /> 10..20<br />Values exactly 50:<br /> =50' }" v-model="inputVal"  :placeholder="placeholder" @change="$_change" :class="`${hasError ? errorClass : ''}`">
   </div>
 </template>
 
@@ -21,9 +21,9 @@ export default {
   created() {
     // Update component value
     this.$watch('value', (value) => {
-      if (value && value.length) {
+      if (value) {
         const str = this.$_getValidateModelToString(value);
-        if (str) this.inputVal = str;
+        if (str !== null) this.inputVal = str;
       }
     }, { deep: true, immediate: true });
   },
@@ -84,7 +84,11 @@ export default {
 
 <style lang="scss" scoped>
 .regex-filter-wraper {
+  padding: 0 2px;
+  margin-top: -2px;
+  margin-bottom: 2px;
   .invalid-regex-filter {
+    width: 100%;
     border-color: #ff5454;
   }
 }

@@ -9,7 +9,6 @@
       @on-search="$_searchExec($event)"
       @on-row-per-page-change="$_paginationChanged($event)"
       @on-pagination="$_paginationChanged($event)"
-      @on-column-filter="$_columnFilterChanged($event)"
       :save-settings="$_saveSettings"
       :defaultRows="pageSize"
       :sort="{ key: 'email', order: 'asc' }"
@@ -20,7 +19,8 @@
       :header-fields="$c_tableFields"
       :items="table.items"
       :exportCsvItems="$_csvFetchData"
-      :column-filter="true">
+      :enable-column-filter="true"
+      :column-filter.sync="columnFilter">
       <template slot="search">
         <vue-opti-select
           :list="[ { value: 'table1', content: 'Table 1' }, { value: 'table2', content: 'Table 2' } ]"
@@ -74,11 +74,6 @@ export default {
       this.$_loadData(evt);
       console.log(this.pageCount);
     },
-    $_columnFilterChanged(evt) {
-      console.log(evt);
-      this.$_loadData(evt);
-      console.log(this.pageCount);
-    },
     $_loadData({ page, limit, sortField, sortType, search, searchableFields }) {
       if (this.serverSidePagination) {
         this.loading = true;
@@ -96,15 +91,15 @@ export default {
       return new Promise((res) => {
         setTimeout(() => {
           res([{}]);
-        }, 2000)
-      })
+        }, 2000);
+      });
     },
     async $_saveSettings(fields) {
       console.log('Saving...');
       console.log(fields);
       return new Promise((resolve) => {
         setTimeout(() => {
-          resolve(console.log('Settings saved'))
+          resolve(console.log('Settings saved'));
         }, 3000);
       });
     },
