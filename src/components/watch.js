@@ -27,9 +27,12 @@ export default { // eslint-disable-next-line
       this.localTableModel = this.tableModel;
       this.localHeaderFields = this.headerFields;
       this.localTableModel.displayColumns = this.localHeaderFields.filter(field => field.display !== false);
+      // Reset Filter on headers change
       this.filterFieldsModels = {};
+      this.columnFilterLocal = {};
+      this.$emit('update:columnFilter', this.columnFilterLocal);
       this.localHeaderFields.forEach((col) => {
-        if (col.item.filter) this.$set(this.filterFieldsModels, col.item.key, this.columnFilter[col.item.key] || []);
+        if (col.item.filter) this.$set(this.filterFieldsModels, col.item.key, this.columnFilterLocal[col.item.key] || []);
       });
       // if (window.localStorage.getItem(this.name)) {
       //   this.localTableModel.displayColumns = JSON.parse(window.localStorage.getItem(this.name)).displayColumns;
@@ -49,6 +52,12 @@ export default { // eslint-disable-next-line
     deep: true,
   },
   columnFilter: {
+    handler(value) {
+      this.columnFilterLocal = value;
+    },
+    deep: true,
+  },
+  columnFilterLocal: {
     handler(value) {
       const copyValue = JSON.parse(JSON.stringify(value));
       Object.keys(this.filterFieldsModels).forEach((key) => {

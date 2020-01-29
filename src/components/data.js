@@ -25,5 +25,6 @@ export default function () {
     touchedSettingsColumns: false,
     csvDownloadLoading: false,
     xlsDownloadLoading: false,
+    columnFilterLocal: {},
   };
 }

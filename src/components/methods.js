@@ -73,6 +73,7 @@ export default {
     Object.keys(columnFilter).forEach((key) => {
       if (!columnFilter[key].length) delete columnFilter[key];
     });
+    this.columnFilterLocal = columnFilter;
     this.$emit('update:columnFilter', columnFilter);
     this.$_paginationEvent('column-filter');
   },
@@ -87,7 +88,7 @@ export default {
         sortType: this.sortOrder,
         search: this.models.search,
         searchableFields: this.$c_searchableFields,
-        columnFilter: this.columnFilter,
+        columnFilter: this.columnFilterLocal,
       });
     }
   },

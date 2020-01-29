@@ -9,6 +9,7 @@
       @on-search="$_searchExec($event)"
       @on-row-per-page-change="$_paginationChanged($event)"
       @on-pagination="$_paginationChanged($event)"
+      @on-column-filter="$_columnFilterChanged($event)"
       :save-settings="$_saveSettings"
       :defaultRows="pageSize"
       :sort="{ key: 'email', order: 'asc' }"
@@ -67,6 +68,11 @@ export default {
   },
   methods: {
     $_paginationChanged(evt) {
+      console.log(evt);
+      this.$_loadData(evt);
+    },
+    $_columnFilterChanged(evt) {
+      console.log(evt);
       this.$_loadData(evt);
     },
     $_searchExec(evt) {
@@ -106,6 +112,6 @@ export default {
   },
   created() {
     this.$_loadData({ page: 0, limit: 10 });
-  }
+  },
 };
 </script>

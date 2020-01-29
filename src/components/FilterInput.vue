@@ -1,6 +1,6 @@
 <template>
   <div class="regex-filter-wraper">
-    <input v-b-tooltip="{ html: true, hover: true, placement: 'top', boundary: 'window', title: 'Values 10 to 20:<br /> 10..20<br />Values exactly 50:<br /> =50' }" v-model="inputVal"  :placeholder="placeholder" @change="$_change" :class="`${hasError ? errorClass : ''}`">
+    <input type="text" v-b-tooltip="{ html: true, hover: true, placement: 'top', boundary: 'window', title: 'Values 10 to 20:<br /> 10..20<br />Values exactly 50:<br /> =50' }" v-model="inputVal"  :placeholder="placeholder" @change="$_onChange" @keyup.enter="$_onEnter" :class="`${hasError ? errorClass : ''}`">
   </div>
 </template>
 
@@ -26,10 +26,20 @@ export default {
         if (str !== null) this.inputVal = str;
       }
     }, { deep: true, immediate: true });
+
+    this.debouncedChange = this.$_debounce(this.$_change, 300);
   },
   methods: {
-    $_change(event) {
-      const model = this.$_stringToModel(event.target.value);
+    $_onEnter(event) {
+      this.debouncedChange(event.target.value);
+      event.target.blur();
+    },
+    $_onChange(event) {
+      this.debouncedChange(event.target.value);
+      event.target.blur();
+    },
+    $_change(value) {
+      const model = this.$_stringToModel(value);
       const str = this.$_getValidateModelToString(model);
       if (str !== null) this.$emit('input', model);
     },
@@ -78,6 +88,17 @@ export default {
       }
       return str;
     },
+    $_debounce(fn, delay) {
+      let timer = null;
+      return (...args) => {
+        const context = this;
+        // const args = arguments;
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          fn.apply(context, args);
+        }, delay);
+      };
+    },
   },
 };
 </script>
@@ -87,6 +108,9 @@ export default {
   padding: 0 2px;
   margin-top: -2px;
   margin-bottom: 2px;
+  input {
+    width: 100%;
+  }
   .invalid-regex-filter {
     width: 100%;
     border-color: #ff5454;
