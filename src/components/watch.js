@@ -29,8 +29,10 @@ export default { // eslint-disable-next-line
       this.localTableModel.displayColumns = this.localHeaderFields.filter(field => field.display !== false);
       // Reset Filter on headers change
       this.filterFieldsModels = {};
-      this.columnFilterLocal = {};
-      this.$emit('update:columnFilter', this.columnFilterLocal);
+      if (this.columnFilterReset) {
+        this.columnFilterLocal = {};
+        this.$emit('update:columnFilter', this.columnFilterLocal);
+      }
       this.localHeaderFields.forEach((col) => {
         if (col.item.filter) this.$set(this.filterFieldsModels, col.item.key, this.columnFilterLocal[col.item.key] || []);
       });

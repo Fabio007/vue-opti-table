@@ -111,7 +111,7 @@
             </div>
           </th>
         </tr>
-        <tr v-if="enableColumnFilter" class="column-filter">
+        <tr v-if="columnFilterEnable" class="column-filter">
           <th v-if="selectable"></th>
           <th v-for="(col, i) in $c_sortedHeaderFields" v-if="$c_shouldDisplayColumn[i]" :key="i">
             <template v-if="filterFieldsModels[col.item.key]">

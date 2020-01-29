@@ -23,6 +23,7 @@ export default {
   saveSettings: { type: [Function, null], default: null },
   totals: { type: Object },
   exportCsvItems: { type: Function, default: () => [] }, // Only Server-Side
-  enableColumnFilter: { type: Boolean, default: false },
+  columnFilterEnable: { type: Boolean, default: false },
   columnFilter: { type: Object, default: () => ({}) },
+  columnFilterReset: { type: Boolean, default: true },
 };
