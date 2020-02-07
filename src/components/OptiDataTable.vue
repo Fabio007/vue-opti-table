@@ -560,6 +560,11 @@ export default {
         }
       }
     }
+    .column-filter {
+      th {
+        border-top: 1px solid #e1e6ef;
+      }
+    }
     .active-selection {
       width: 8px;
       height: 8px;
