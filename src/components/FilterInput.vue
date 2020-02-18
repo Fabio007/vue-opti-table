@@ -141,7 +141,7 @@ export default {
     top: 7px;
     right: 3px;
     color: #6c747d;
-    z-index: 999;
+    z-index: 1;
     font-size: 11px;
   }
   &.invalid-regex-filter {
