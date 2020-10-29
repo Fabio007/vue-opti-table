@@ -51,6 +51,7 @@ import { VueOptiSelect } from 'vue-opti-select';
 import VueOptiTableNext from '../src/index';
 import data from './data';
 import loader from './loader';
+import dataItems from './items';
 
 Vue.use(BootstrapVue);
 Vue.use(VueOptiTableNext);
@@ -97,7 +98,7 @@ export default {
     async $_csvFetchData() {
       return new Promise((res) => {
         setTimeout(() => {
-          res([{}]);
+          res(dataItems);
         }, 2000);
       });
     },
